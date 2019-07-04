@@ -1,2 +1,72 @@
-안녕하세요.
-v2
+<!DOCTYPE html>
+<html>
+<head>
+	<!-- jQuery  -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+</head>
+<body>
+파이어베이스 웹서버 입니다.
+	<h1 id ="bigOne"><h1>
+<script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-database.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-auth.js"></script>
+<script>
+  var firebaseConfig = {
+    apiKey: "AIzaSyB26wAaMYMKewUIyvXNyBU1Qz9q5VqrbNI",
+    authDomain: "fbtest-bf4d7.firebaseapp.com",
+    databaseURL: "https://fbtest-bf4d7.firebaseio.com",
+    projectId: "fbtest-bf4d7",
+    storageBucket: "",
+    messagingSenderId: "444339190268",
+    appId: "1:444339190268:web:ec48c4d71c6704f1"
+  };
+  firebase.initializeApp(firebaseConfig);
+ 
+var provider = new firebase.auth.GoogleAuthProvider();
+/*
+firebase.auth().signInWithPopup(provider).then(function(result) {
+	console.log("ds");
+	}).catch(function(error){
+	alert(error.message);
+	});*/
+
+firebase.auth().signInWithPopup(provider).then(function(result) {
+	var token = result.credential.accessToken;
+	var user = result.user;
+	}).catch(function(error) {
+	var errorCode = error.code;
+	var errorMessage = error.message;
+	var email = error.email;
+	var credential = error.credential;
+	});
+
+
+
+/*
+firebase.auth().signInWithCustomToken(token).catch(function(error) {
+  var errorCode = error.code;
+  var errorMessage = error.message;
+});
+*/
+
+
+/* 파이어베이스의 데이터 가져와서 h1에 출력
+var bigOne = document.getElementById('bigOne');
+
+      var dbRef = firebase.database().ref().child('test').child('intro');
+      dbRef.on('value', snap => bigOne.innerText = snap.val());
+*/
+
+var database = firebase.database();
+//database.ref('test/').set({"name1": "테스트2", "intro": "인삿말2"});
+//database.ref('test/').push({"name2": "테스트5", "location": "seoul"});
+//database.ref('test/').push({"name": "테스트2", "intro": "인삿말"});
+var dbTestRef = database.ref('test/');
+dbTestRef.on('child_added', function(data){
+	console.log(data)
+});
+</script>
+</body>
+</html>
